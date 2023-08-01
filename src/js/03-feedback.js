@@ -4,13 +4,13 @@ const formRef = document.querySelector('.feedback-form');
 formRef.addEventListener('input', throttle(onInput, 500));
 formRef.addEventListener('submit', onSubmit);
 
-const object = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
-refreshPage(object);
+const feedbackFormState = JSON.parse(localStorage.getItem('feedback-form-state')) || { email: '', message: '' };
 
-const feedbackFormState = {};
+refreshPage(feedbackFormState);
 
 function onInput(e) {
   feedbackFormState[e.target.name] = e.target.value;
+
   localStorage.setItem('feedback-form-state', JSON.stringify(feedbackFormState));
 }
 
@@ -25,7 +25,7 @@ function onSubmit(e) {
   localStorage.removeItem('feedback-form-state');
 }
 
-function refreshPage({ email = '', message = '' }) {
+function refreshPage({ email, message }) {
   formRef.elements.email.value = email;
   formRef.elements.message.value = message;
 }
